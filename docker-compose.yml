@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+
+  backend:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    depends_on:
+      - maria_gql
+
+  maria_gql:
+    image: mariadb:10.4
+    restart: always
+    container_name: gql_db
+    working_dir: /application
+    volumes:
+      - .dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=test123456
+      - MYSQL_DATABASE=gql_db
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=test123456
+    ports:
+      - "8807:3306"
